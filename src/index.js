@@ -2,24 +2,17 @@ import express from "express"
 import axios from "axios"
 import responseTime from "response-time"
 import { createClient } from "redis"
-import {
-  API_BASE_URL,
-  MYSQLDB_LOCAL_PORT,
-  MYSQLDB_HOST,
-  MYSQLDB_USER,
-  MYSQLDB_ROOT_PASSWORD,
-  MYSQLDB_DATABASE,
-} from "./config.js"
+import { cfg } from "./config.js"
 import { createPool } from "mysql2/promise"
 
 const app = express()
 
 export const pool = createPool({
-  port: MYSQLDB_LOCAL_PORT,
-  host: MYSQLDB_HOST,
-  user: MYSQLDB_USER,
-  password: MYSQLDB_ROOT_PASSWORD,
-  database: MYSQLDB_DATABASE,
+  port: cfg.MYSQLDB_LOCAL_PORT,
+  host: cfg.MYSQLDB_HOST,
+  user: cfg.MYSQLDB_USER,
+  password: cfg.MYSQLDB_ROOT_PASSWORD,
+  database: cfg.MYSQLDB_DATABASE,
 })
 
 // middlewares
@@ -46,7 +39,7 @@ app.get("/users", async (req, res) => {
     return res.json(JSON.parse(value))
   }
 
-  const response = await axios.get(`${API_BASE_URL}/users`)
+  const response = await axios.get(`${cfg.API_BASE_URL}/users`)
   console.log("api")
 
   // await client.set("key", "value") // guardar variable
@@ -67,13 +60,12 @@ app.get("/users/:id", async (req, res) => {
     }
 
     // buscar en api
-    const response = await axios.get(`${API_BASE_URL}/users/${req.params.id}`)
+    const response = await axios.get(
+      `${cfg.API_BASE_URL}/users/${req.params.id}`
+    )
     console.log("api")
 
-    await client.set(
-      req.originalUrl,
-      JSON.stringify(response.data)
-    )
+    await client.set(req.originalUrl, JSON.stringify(response.data))
 
     await client.expire(req.originalUrl, 43200) // 12hrs
 
