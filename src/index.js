@@ -75,7 +75,7 @@ app.get("/users/:id", async (req, res) => {
       JSON.stringify(response.data), 'EX', 10
     )
 
-    await client.expire(req.originalUrl, 4200) // 12 hrs
+    await client.expire(req.originalUrl, 43200) // 12 hrs
 
     return res.json(response.data)
   } catch (error) {
