@@ -8,7 +8,7 @@ import {
   MYSQLDB_HOST,
   MYSQLDB_USER,
   MYSQLDB_ROOT_PASSWORD,
-  MYSQLDB_DATABASE
+  MYSQLDB_DATABASE,
 } from "./config.js"
 import { createPool } from "mysql2/promise"
 
@@ -19,7 +19,7 @@ export const pool = createPool({
   host: MYSQLDB_HOST,
   user: MYSQLDB_USER,
   password: MYSQLDB_ROOT_PASSWORD,
-  database: MYSQLDB_DATABASE
+  database: MYSQLDB_DATABASE,
 })
 
 // middlewares
@@ -35,8 +35,8 @@ app.get("/", async (req, res) => {
 })
 
 app.get("/ping", async (req, res) => {
-  const fecha = await pool.query('select now()')
-  res.json({"fecha": fecha[0]})
+  const fecha = await pool.query("select now()")
+  res.json({ fecha: fecha[0] })
 })
 
 app.get("/users", async (req, res) => {
@@ -70,7 +70,12 @@ app.get("/users/:id", async (req, res) => {
     const response = await axios.get(`${API_BASE_URL}/users/${req.params.id}`)
     console.log("api")
 
-    await client.set(req.originalUrl, JSON.stringify(response.data))
+    await client.set(
+      req.originalUrl,
+      JSON.stringify(response.data), 'EX', 10
+    )
+
+    await client.expire(req.originalUrl, 4200) // 12 hrs
 
     return res.json(response.data)
   } catch (error) {
