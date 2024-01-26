@@ -8,7 +8,8 @@ import { createPool } from "mysql2/promise"
 const app = express()
 
 export const pool = createPool({
-  port: cfg.MYSQLDB_LOCAL_PORT,
+  // port: cfg.MYSQLDB_LOCAL_PORT,
+  port: cfg.MYSQLDB_DOCKER_PORT,
   host: cfg.MYSQLDB_HOST,
   user: cfg.MYSQLDB_USER,
   password: cfg.MYSQLDB_ROOT_PASSWORD,
