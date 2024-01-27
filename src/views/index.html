@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% from 'macros.html' import navbar %}
+
+{% block main %}
+{{ navbar('/') }}
+<div class="container body">
+  <div>
+    <p class="menus mt-3">Select</p>
+    <p>
+      <span class="menu"> A: </span><span>  </span>
+      <span class="menu"> B: </span><span>  </span>
+      <span class="menu"> C: </span><span>  </span>
+      <span class="menu"> D: </span><span>  </span>
+      <span class="menu"> E: </span><span>  </span>
+      <span class="menu"> {{proy.name}} </span><span>  {{proy.is_admin}} </span>
+    </p>
+    <p>
+      
+    </p>
+  </div>
+</div>
+
+
+{% endblock %}

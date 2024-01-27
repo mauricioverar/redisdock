@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Proy</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet" >
+
+    <style>
+      .menus {
+        text-decoration: underline red;
+      }
+      .menu {
+        font-weight: bold;
+      }
+      .span-footer {
+        color: yellow;
+      }
+      .btn_new {
+        color: brown;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      {% block main %}
+        <h1 class="text-center text-primary">Por implementar</h1>
+      {% endblock  %}
+    </div>
+    <footer class="row mt-4">
+      <div class="col-12 md-12 mt-5">
+        <p class="text-center bg-success text-white"> Project  <span class="span-footer">{{proy.name}}</span>  
+        </p>        
+      </div>
+    </footer>
+    <script src="js/bootstrap.min.js"></script>
+  </body>
+</html>
