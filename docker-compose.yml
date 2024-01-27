@@ -1,12 +1,6 @@
 version: '3.8'
 
 services:
-  redis:
-    image: redis
-    env_file: ./.env
-    ports:
-      - $REDIS_DOCKER_PORT:$REDIS_DOCKER_PORT
-    
   mysqldb:
     image: mysql
     env_file: ./.env

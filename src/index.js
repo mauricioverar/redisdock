@@ -1,7 +1,7 @@
 import express from "express"
-import axios from "axios"
+// import axios from "axios"
 import responseTime from "response-time"
-import { createClient } from "redis"
+// import { createClient } from "redis"
 import { cfg } from "./config.js"
 import { createPool } from "mysql2/promise"
 
@@ -20,9 +20,9 @@ export const pool = createPool({
 app.use(responseTime())
 
 // Connecting to dock-redis or to redis
-const client = await createClient()
+/* const client = await createClient()
   .on("error", (err) => console.log("Redis Client Error", err))
-  .connect()
+  .connect() */
 
 app.get("/", async (req, res) => {
   res.send("/users on redis")
@@ -33,7 +33,7 @@ app.get("/ping", async (req, res) => {
   res.json({ fecha: fecha[0] })
 })
 
-app.get("/users", async (req, res) => {
+/* app.get("/users", async (req, res) => {
   // const value = await client.get("key")
   const value = await client.get("usuarios")
   if (value) {
@@ -50,9 +50,9 @@ app.get("/users", async (req, res) => {
     JSON.stringify(response.data) // transf json a str
   )
   res.json(response.data)
-})
+}) */
 
-app.get("/users/:id", async (req, res) => {
+/* app.get("/users/:id", async (req, res) => {
   try {
     // buscar en redis
     const value = await client.get(req.originalUrl)
@@ -75,7 +75,7 @@ app.get("/users/:id", async (req, res) => {
     console.log(error.message)
     return res.status(error.response.status).json({ msj: error.message })
   }
-})
+}) */
 
 //error 404
 app.use("*", function (req, res, next) {
@@ -83,5 +83,8 @@ app.use("*", function (req, res, next) {
   next()
 })
 
-app.listen(3000)
-console.log("server on port", 3000)
+/* app.listen(cfg.NODE_LOCAL_PORT) // 4000 ó 3000
+console.log("server on port", cfg.NODE_LOCAL_PORT) */
+
+app.listen(cfg.NODE_DOCKER_PORT)
+console.log("server on port", cfg.NODE_DOCKER_PORT)
