@@ -10,6 +10,13 @@ services:
     ports:
       - $MYSQLDB_LOCAL_PORT:$MYSQLDB_DOCKER_PORT
   
+  redis:
+    image: redis
+    env_file: ./.env
+    ports:
+      - $REDIS_DOCKER_PORT:$REDIS_DOCKER_PORT
+    container_name: dock-redis
+
   app:
     depends_on:
       - mysqldb

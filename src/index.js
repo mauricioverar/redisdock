@@ -5,4 +5,13 @@ import { cfg } from "./config.js"
 console.log("server on port", cfg.NODE_LOCAL_PORT) */
 
 app.listen(cfg.NODE_DOCKER_PORT)
-console.log("server on port", cfg.NODE_DOCKER_PORT)
+console.log("localhost:" + cfg.NODE_DOCKER_PORT)
+
+// abrir docker desktop
+// ejecutar
+// docker - compose up -d
+// ** para tener ambos servicios se cae al pedir datos a mysql **
+// ejecutar bd
+//en otro terminal ejecutar:
+// redis - commander
+// npm start

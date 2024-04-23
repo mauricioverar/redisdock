@@ -1,7 +1,7 @@
 import express from "express"
-// import axios from "axios"
+import axios from "axios"
 import responseTime from "response-time"
-// import { createClient } from "redis"
+import { createClient } from "redis"
 import { cfg } from "./config.js"
 import { createPool } from "mysql2/promise"
 
@@ -26,6 +26,11 @@ const __dirname = path.dirname(__filename)
 
 // Middlewares
 app.use(responseTime())
+
+// Connecting to dock-redis or to redis
+const client = await createClient()
+  .on("error", (err) => console.log("Redis Client Error", err))
+  .connect()
 
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
@@ -52,6 +57,27 @@ app.use("/", auth)
 app.get("/ping", async (req, res) => {
   const fecha = await pool.query("select now()")
   res.json({ fecha: fecha[0] })
+})
+
+app.get("/users", async (req, res) => {
+  // const value = await client.get("key")
+  const value = await client.get("usuarios")
+  if (value) {
+    console.log("value")
+    console.log(JSON.parse(value)) // transf str a json
+    return res.json(JSON.parse(value))
+  }
+
+  const response = await axios.get("https://jsonplaceholder.typicode.com/users")
+  console.log("api")
+
+  // await client.set("key", "value") // guardar variable
+
+  await client.set(
+    "usuarios",
+    JSON.stringify(response.data) // transf json a str
+  )
+  res.json(response.data)
 })
 
 // ruta no existe
